@@ -2,11 +2,844 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>It's prank</title>
+    <title>隨機題目網站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #question-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #answer-form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+    </style>
 </head>
 <body>
-    
+    <h1>隨機題目網站</h1>
+
+    <div id="question-container">
+        <p id="question-text"></p>
+        <form id="answer-form">
+            <label>
+                <input type="radio" name="answer" value="A"> <span id="optionA"></span>
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="answer" value="B"> <span id="optionB"></span>
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="answer" value="C"> <span id="optionC"></span>
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="answer" value="D"> <span id="optionD"></span>
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="answer" value="E"> <span id="optionE"></span>
+            </label>
+            <br>
+            <button type="button" onclick="checkAnswer()">提交答案</button>
+        </form>
+    </div>
+
+    <script>
+        var questionBank = [
+    {
+        question: "Q54. What are the four types of clearable buffers?",
+        options: {
+            A: "(A) Color, HDR, LTR, VAO",
+            B: "(B) Fragment, Vertex, Vector, Color",
+            C: "(C) Color, Depth, Stencil, Fragment",
+            D: "(D) Color, Depth, Stencil, Accumulation",
+            E: "(E) Vector, Color, Depth, Stencil"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q55. What function is required in every GLSL shader program?",
+        options: {
+            A: "(A) void maine (*) {}",
+            B: "(B) int start () {}",
+            C: "(C) void main () {}",
+            D: "(D) int main () {}",
+            E: "(E) void code () {}"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q56. What is the “pre-fragment” operations?",
+        options: {
+            A: "(A) A way of describing stenciled buffer operation.",
+            B: "(B) Super-parallel operations that occur in CPU before uploading to the GPU core.",
+            C: "(C) Operations that occur logically, such as glLogicOp, which tragically fragment your application’s intended output, running your render.",
+            D: "(D) Also known as a “pre-pixel” operation (application in some cases), “pre-fragment” more accurately describe an operation that occurs through each required “fragment” by pipelines that directly with screen graphics."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q57. What is “core” versus “compatibility” styles of writing OpenGL applications?",
+        options: {
+            A: "(A) “Core” programmers are the ones who created OpenGL, while “compatibility” programmers are the ones hired by other companies to make older applications work on newer machines.",
+            B: "(B) “Core” is the stuff that comes recommended in the specification for the version you are writing for, while “compatibility” uses deprecated function or function from other versions that are not backward compatible.",
+            C: "(C) “compatibility” and “Core” modes are the same modes, but one us gl*function and the other use cgl*functions.",
+            D: "(D) There are nineteen different versions of OpenGL, all of which are now listed as “compatibility” except for three that are listed."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q58. Does OpenGL perform clipping for objects, not within the current viewport?",
+        options: {
+            A: "(A) Yes.",
+            B: "(B) No."
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q59. Fill in the blank to draw this triangle: glBegin (GL_TRIANGLE); …. (blank) …. glEnd();",
+        options: {
+            A: "(A) glDrawTriangle (x,y,z);",
+            B: "(B) glVertex3i (1,2,3); glVertex3i (1,2,3); glTexCoord2i(1,2,3);",
+            C: "(C) put your VBO binding code in there",
+            D: "(D) use 3 sets of common immediate mode function such as glVertex* (required), glColor*, glTexCoord*"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q60. What is glVertexPointer (...) used for?",
+        options: {
+            A: "(A) Get a pointer to a vertex.",
+            B: "(B) Select a vertex of a polygon",
+            C: "(C) Passing an array of vertices to OpenGL",
+            D: "(D) The convention followed in OpenGL to defining and passing a pointer."
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q61. What are the dimensions of a 2D transformation matrix?",
+        options: {
+            A: "(A) 2x2",
+            B: "(B) 3x3",
+            C: "(C) 3x4",
+            D: "(D) 4x4"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q62. What do the letters “ARB” mean in the context of OpenGL?",
+        options: {
+            A: "(A) Associated Rendering Buffer",
+            B: "(B) Aligned Rendering Buffer",
+            C: "(C) Architecture Review Board",
+            D: "(D) Antiquated Resolution Board"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q63. How do you activate a shader program in OpenGL",
+        options: {
+            A: "(A) glUserProgram(ProgramID);",
+            B: "(B) glUseProgram(ProgramID);",
+            C: "(C) glProgram(ProgramID);",
+            D: "(D) glShader(ProgramID);",
+            E: "(E) glUseShader(ProgramID);"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q64. When do you use glFlush and glFinish?",
+        options: {
+            A: "(A) glFlush and glFinish should be called once and only once per application. Their utility has increased over time and is required for any OpenGL application no matter how simple (a three-line demo) or complex (a 450,000 AAA video game).",
+            B: "(B) You use glFlush to clear the screen and glFinish to draw the screen to the display.",
+            C: "(C) Usually around certain operations, such as during a glReadPixel after writing, or when Opengl must flush or finish its currently buffered calls. Their utility has decreased over time.",
+            D: "(D) None of all above"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q54. What are the four types of clearable buffers?",
+        options: {
+            A: "(A) Color, HDR, LTR, VAO",
+            B: "(B) Fragment, Vertex, Vector, Color",
+            C: "(C) Color, Depth, Stencil, Fragment",
+            D: "(D) Color, Depth, Stencil, Accumulation",
+            E: "(E) Vector, Color, Depth, Stencil"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q55. What function is required in every GLSL shader program?",
+        options: {
+            A: "(A) void maine (*) {}",
+            B: "(B) int start () {}",
+            C: "(C) void main () {}",
+            D: "(D) int main () {}",
+            E: "(E) void code () {}"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q56. What is the “pre-fragment” operations?",
+        options: {
+            A: "(A) A way of describing stenciled buffer operation.",
+            B: "(B) Super-parallel operations that occur in CPU before uploading to the GPU core.",
+            C: "(C) Operations that occur logically, such as glLogicOp, which tragically fragment your application’s intended output, running your render.",
+            D: "(D) Also known as a “pre-pixel” operation (application in some cases), “pre-fragment” more accurately describe an operation that occurs through each required “fragment” by pipelines that directly with screen graphics."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q57. What is “core” versus “compatibility” styles of writing OpenGL applications?",
+        options: {
+            A: "(A) “Core” programmers are the ones who created OpenGL, while “compatibility” programmers are the ones hired by other companies to make older applications work on newer machines.",
+            B: "(B) “Core” is the stuff that comes recommended in the specification for the version you are writing for, while “compatibility” uses deprecated function or function from other versions that are not backward compatible.",
+            C: "(C) “compatibility” and “Core” modes are the same modes, but one us gl*function and the other use cgl*functions.",
+            D: "(D) There are nineteen different versions of OpenGL, all of which are now listed as “compatibility” except for three that are listed."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q58. Does OpenGL perform clipping for objects, not within the current viewport?",
+        options: {
+            A: "(A) Yes.",
+            B: "(B) No."
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q59. Fill in the blank to draw this triangle: glBegin (GL_TRIANGLE); …. (blank) …. glEnd();",
+        options: {
+            A: "(A) glDrawTriangle (x,y,z);",
+            B: "(B) glVertex3i (1,2,3); glVertex3i (1,2,3); glTexCoord2i(1,2,3);",
+            C: "(C) put your VBO binding code in there",
+            D: "(D) use 3 sets of common immediate mode function such as glVertex* (required), glColor*, glTexCoord*"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q60. What is glVertexPointer (…) used for?",
+        options: {
+            A: "(A) Get a pointer to a vertex.",
+            B: "(B) Select a vertex of a polygon",
+            C: "(C) Passing an array of vertices to OpenGL",
+            D: "(D) The convention followed in OpenGL to defining and passing a pointer."
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q61. What are the dimensions of a 2D transformation matrix?",
+        options: {
+            A: "(A) 2x2",
+            B: "(B) 3x3",
+            C: "(C) 3x4",
+            D: "(D) 4x4"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q62. What do the letters “ARB” mean in the context of OpenGL?",
+        options: {
+            A: "(A) Associated Rendering Buffer",
+            B: "(B) Aligned Rendering Buffer",
+            C: "(C) Architecture Review Board",
+            D: "(D) Antiquated Resolution Board"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q63. How do you activate a shader program in OpenGL",
+        options: {
+            A: "(A) glUserProgram(ProgramID);",
+            B: "(B) glUseProgram(ProgramID);",
+            C: "(C) glProgram(ProgramID);",
+            D: "(D) glShader(ProgramID);",
+            E: "(E) glUseShader(ProgramID);"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q64. When do you use glFlush and glFinish?",
+        options: {
+            A: "(A) glFlush and glFinish should be called once and only once per application. Their utility has increased over time and is required for any OpenGL application no matter how simple (a three-line demo) or complex (a 450,000 AAA video game).",
+            B: "(B) You use glFlush to clear the screen and glFinish to draw the screen to the display.",
+            C: "(C) Usually around certain operations, such as during a glReadPixel after writing, or when Opengl must flush or finish its currently buffered calls. Their utility has decreased over time.",
+            D: "(D) None of all above"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q65. Does OpenGL raise an error if a new display list is given the same name of a previously defined display list?",
+        options: {
+            A: "(A) Yes.",
+            B: "(B) No."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q66. What are EXT and ARB",
+        options: {
+            A: "(A) EXT and ARB function are deprecated by default in old versions of OpenGL, and can only be accessed with a special key.",
+            B: "(B) EXT and ARB function appear in the specification, but do not appear in actual use cases.",
+            C: "(C) EXT and ARB function are not yet integrated into the “core” feature set and are considered experimental but the candidate.",
+            D: "(D) None of all above"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q67. What are the primitive types available to a glBegin statement? Note: this question is often flagged by test takers. Read carefully and choose wisely, there is only one correct answer.",
+        options: {
+            A: "(A) GL_QUADE, GL_TRIANGLE, GL_LINES, GL_LINE_STRIP, GL_QUAD_STRIP, GL_LINE_LOOP, GL_TRIANGLE_STRIP, GL_POINTS, GL_POLYGON",
+            B: "(B) TRUE or FALSE",
+            C: "(C) GL_START, GL_END",
+            D: "(D) GL_BEGIN, GL_CLOSE"
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q68. Which is better to use for dynamic drawing?",
+        options: {
+            A: "(A) Coordinate Pointer",
+            B: "(B) Display List",
+            C: "(C) Vertex Array",
+            D: "(D) None of all above"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q69. Once shading is enable, what happens to glColor() calls?",
+        options: {
+            A: "(A) A run-time error occurs if both are used.",
+            B: "(B) They are ignored.",
+            C: "(C) They function as normal.",
+            D: "(D) They enhance the shading effects."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q70. What is the purpose of MIPMAP?",
+        options: {
+            A: "(A) A way to store images that use 33% less space on the GPU.",
+            B: "(B) Filtered non-uniform definitions of texture space can be resolved only using MIPMAP iconography.",
+            C: "(C) Non-isotropic texture used to exhibit quality cache behavior, a basis of non-inverted platform microcopy; a per-fragment compatibility mode in OpenGL.",
+            D: "(D) Multum in parvo; a LOD texture branching from the main texture that assists in scaling, a basis of wavelet compression."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q71. What kind of argument is expected in a function ending with a “v”?",
+        options: {
+            A: "(A) An array typecasted with (GLvoid*) or in the type incidated by the preceding letters.",
+            B: "(B) Any void variable.",
+            C: "(C) A GLunit* pointer.",
+            D: "(D) A virtual method function pointer."
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q72. It is possible to perform a reflection of an object across a specified axis?",
+        options: {
+            A: "(A) No, this functionality is not possible with the current version of OpenGL.",
+            B: "(B) Yes, with glReflect().",
+            C: "(C) Yes, with simple matrix multiplication.",
+            D: "(D) No, you must redraw your object reflected across the desired axis."
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q73. The current version of OpenGL does support materials?",
+        options: {
+            A: "(A) True, these was no need to remove materials support.",
+            B: "(B) False, shaders replaced this functionality.",
+            C: "(C) False, ray tracing replaced this functionality.",
+            D: "(D) None of all above"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q74. What kind of coordinates are used in order to represent a transformation as a matrix multiplication operation?",
+        options: {
+            A: "(A) Homogenous",
+            B: "(B) Cartesian",
+            C: "(C) Parametric",
+            D: "(D) Heterogeneous"
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q75. What is glTexCoord*() used for?",
+        options: {
+            A: "(A) Defines a coordinate in a texture space in which to draw on top of the texture.",
+            B: "(B) Defines a coordinate in a texture space to be mapped to object space.",
+            C: "(C) Used to define the coordinate system of a texture.",
+            D: "(D) A newly added function where OpenGL supports placing a texting window for mobile applications."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q76. What happens in immediate mode?",
+        options: {
+            A: "(A) OpenGL enters into an interactive mode with the user.",
+            B: "(B) Primitives can be redrawn from display lists. Hence, no information is lost.",
+            C: "(C) Once drawn, primitive information is lost. To redraw, the primitives are drawn by reexecuting the display function.",
+            D: "(D) All commands are given the highest priority execution."
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q77. What purpose does the “Scissor Test” serve?",
+        options: {
+            A: "(A) To end the “Rubber Band Test”",
+            B: "(B) To “cut out” a section of a buffer when performing a copy operation.",
+            C: "(C) To scale a section of a buffer.",
+            D: "(D) To limit the drawing area."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q78. How many texture units are there in OpenGL?",
+        options: {
+            A: "(A) OpenGL provides no texture units per se, but the term is often confused with “texel units”, which refers the number of texture pixel stored in the accumulation buffer.",
+            B: "(B) It is hardware specific and can be queried using glGet.",
+            C: "(C) It is a fractional equivalent to OpenGL’s version number.",
+            D: "(D) It is hardware specific and can be queried using glGetUnits."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q79. Can OpenGL automatically generate texture coordinate?",
+        options: {
+            A: "(A) Yes.",
+            B: "(B) No."
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q80. Which a function NOT used for rending vertex arrays?",
+        options: {
+            A: "(A) glDrawArrays()",
+            B: "(B) glDrawElements()",
+            C: "(C) glDisplayArrays()",
+            D: "(D) glArrayElements()"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q81. What does the Blend Equation do?",
+        options: {
+            A: "(A) It tells OpenGL how to anti-alias polygon.",
+            B: "(B) It tells OpenGL how to mix fragments into a logical order.",
+            C: "(C) It set up a translucent viewport.",
+            D: "(D) It provides the alpha channel with a mixing heuristic, ignoring R, G and B value of a given fragment.",
+            E: "(E) It is return by OpenGL so a parameter can calculate color combinations."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q82. How many cycles theoretically take for a single OpenGL call?",
+        options: {
+            A: "(A) 2",
+            B: "(B) 4",
+            C: "(C) 3",
+            D: "(D) 1",
+            E: "(E) 5"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q83. Will a PNG file directly upload to a GPU, using the fixed-function pipeline, render with the expected content?",
+        options: {
+            A: "(A) Yes.",
+            B: "(B) No."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q84. True or False, OpenGL does NOT have its own data types for int, float, and double?",
+        options: {
+            A: "(A) True.",
+            B: "(B) False."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q85. Does function deprecation stop older applications from working with newer versions of OpenGL?",
+        options: {
+            A: "(A) 3 out of 6 times.",
+            B: "(B) Yes.",
+            C: "(C) No, never.",
+            D: "(D) No, most of the time."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q86. Does OpenGL use column-major order or row-major order when representing a transformation matrix?",
+        options: {
+            A: "(A) row-major",
+            B: "(B) column-major",
+            C: "(C) vector-major"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q87. What do you have to do to get “compatibility mode” in OpenGL?",
+        options: {
+            A: "(A) glEnable (GL_COMPATIBILITY);",
+            B: "(B) glEnable (GL_ALL);",
+            C: "(C) glEnable (GL_COMPAT);",
+            D: "(D) glDisable (GL_STRICT);",
+            E: "(E) Nothing"
+        },
+        correctAnswer: "E"
+    },
+    {
+        question: "Q88. Which is better to use for static drawing",
+        options: {
+            A: "(A) Display List",
+            B: "(B) Vertex Array",
+            C: "(C) Coordinate Pointer",
+            D: "(D) None of all above"
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q89. Does OpenGL support hierarchical modeling of drawn objects?",
+        options: {
+            A: "(A) Yes.",
+            B: "(B) No."
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q90. What are “accumulation buffers”?",
+        options: {
+            A: "(A) Accumulation buffers accumulate data coming the GPU to the graphics display when switching contexts.",
+            B: "(B) Accumulation buffers offer a unique way to add color to your images.",
+            C: "(C) Accumulation buffers accumulate pixel in an off-screen buffer but cannot be used outside of an OpenGL shared context.",
+            D: "(D) Accumulation buffers allow off-screen rendering to occur without affecting the displayed pixels."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q91. What is the “workshop” name for the type of geometry and texture effects used in commercial gaming as part of OpenGl (and DirectX)?",
+        options: {
+            A: "(A) Polygonal modeling",
+            B: "(B) Geometrical polygonal modeling",
+            C: "(C) Geometric pleasantness",
+            D: "(D) Baked geometry",
+            E: "(E) plasticizing"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q92. What is the use of glOrtho?",
+        options: {
+            A: "(A) It is only used to create isometric the games.",
+            B: "(B) It is the best way to set the view frustum.",
+            C: "(C) glOrtho is used to create a map.",
+            D: "(D) To set the texture and behavior coordinates."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q93. What is “immediate mode”?",
+        options: {
+            A: "(A) A frame loop that repeats once per cycle.",
+            B: "(B) OpenGL’s mnemonic for the way of converting pixel to HDR equivalents.",
+            C: "(C) A deprecated set of functions that permit the user to quickly learn the basic building blocks of OpenGL.",
+            D: "(D) A type of screen mode that allows graphics to immediately be displayed."
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q94. What is the purpose of calls to glLogicOp (GLenum opcode)?",
+        options: {
+            A: "(A) A logical operation applied between RGBA color and RGBA color at the corresponding location.",
+            B: "(B) A logical operation applied between one buffer and another during full-screen copying.",
+            C: "(C) It serves no purpose and has been deprecated since version 1.",
+            D: "(D) A function that returns the error values from OpenGL after performing a “GL logical operation”."
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q95. What is the non-official name for glBlendFunc (GL_ALPHA, GL_ONE)?",
+        options: {
+            A: "(A) Masked",
+            B: "(B) subtractive",
+            C: "(C) Translucency",
+            D: "(D) Multiply",
+            E: "(E) Additive"
+        },
+        correctAnswer: "E"
+    },
+    {
+        question: "Q96. What happens in retained mode?",
+        options: {
+            A: "(A) The current OpenGL state can be stored when specified. This is useful if a command fails and execution needs to rollback to a previous state.",
+            B: "(B) OpenGl retain extra system memory for execution.",
+            C: "(C) Primitives can be redrawn from display lists. Hence, no information is lost.",
+            D: "(D) Once drawn, primitive information is lost. To redraw, the primitives are drawn by reexecuting the display function."
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q97. Is a new coordinate system created with every transformation applied, e.g., translate or rotate?",
+        options: {
+            A: "(A) No.",
+            B: "(B) It depends on the transformations.",
+            C: "(C) Yes.",
+            D: "(D) Sometimes."
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q98. What are the native image formats supported by OpenGL?",
+        options: {
+            A: "(A) OpenGL does not support any native formats.",
+            B: "(B) BGRA, ARGB, RBA, and others.",
+            C: "(C) Next question, please.",
+            D: "(D) PNG, JPG, GIF, PCX, and others."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q99. Let us scale a straight, horizontal line by a factor of 2 through using glScale (2.0f,0.0f, 0.0f). This line consists of only 2 points, left and right point. Which point(s) moves due to the scale transformation?",
+        options: {
+            A: "(A) The right.",
+            B: "(B) Neither",
+            C: "(C) Both.",
+            D: "(D) The left."
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q100. Which coordinate system is NOT used during texture mapping?",
+        options: {
+            A: "(A) Texture",
+            B: "(B) Parametric",
+            C: "(C) Light",
+            D: "(D) World"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q101. When considering lighting, are the effects different when there is one object versus multiple objects?",
+        options: {
+            A: "(A) No, the lighting model in OpenGL is very simple.",
+            B: "(B) Yes, since multiple objects mean light can bounce off of each object and affect the scene.",
+            C: "(C) Yes, since the absorption and reflection of light are shared among objects.",
+            D: "(D) None of all above."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q102. What is “multisampling” and how is it used?",
+        options: {
+            A: "(A) Multisampling is when multiple textures are used to create a single “mega-texture”",
+            B: "(B) Multisampling is a method of doing anti-aliasing (and scaling) while is still in use but is deprecated.",
+            C: "(C) Multisampling is a type of anti-aliasing that allows multiple input sources to write to a single output source.",
+            D: "(D) None of all above."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q103. What is “pixel unpacking”?",
+        options: {
+            A: "(A) Retrieving data from GRAM with functions such as glReadPixel, glGetTexImage2D().",
+            B: "(B) Open source mumbo-jumbo.",
+            C: "(C) Uncompressing image files, or uncompressing texture in GRAM within GPU-space.",
+            D: "(D) Storing data in GARM with functions such as glDrawPixels, glTexImage2D().",
+            E: "(E) Real-time rendering operations that affect data integrity in a cross-platform context."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q104. How many dimensions are supported when performing texture mapping?",
+        options: {
+            A: "(A) 2",
+            B: "(B) 1",
+            C: "(C) 3",
+            D: "(D) 4"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q105. What kind of polygons can OpenGL draw?",
+        options: {
+            A: "(A) Coplanar convex N-gons without holes.",
+            B: "(B) Coplanar convex N-gons with holes.",
+            C: "(C) Concave N-gons",
+            D: "(D) Non-colinear Coplanar concave N-gons",
+            E: "(E) Convex and concave N-gons"
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q106. What is the difference between glBlendFunc and glBlendFuncSeparate()",
+        options: {
+            A: "(A) glBlendFunc does separate the s and d values.",
+            B: "(B) glBlendFunc and glBlendFuncSeparate are essentially the same, but glBlendFunc provides more options and is newer, and thus not deprecated.",
+            C: "(C) Both are deprecated but glBlendFunc was deprecated in 2002 after glBlendFuncSeparate was deprecated the year prior.",
+            D: "(D) glBlendFunc is a shorter call that sets only the s and d factors."
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q107. What is the non-official name for glBlendFunc (GL_ONE_MINUS_DST_COLOR, GL_ZERO)?",
+        options: {
+            A: "(A) Solarize",
+            B: "(B) Additive",
+            C: "(C) Overlay",
+            D: "(D) Multiply",
+            E: "(E) Transparency"
+        },
+        correctAnswer: "A"
+    },
+    {
+        question: "Q108. What is “pixel packing”?",
+        options: {
+            A: "(A) Assembling pixels into network-ready packets.",
+            B: "(B) Retrieving data from the GPU using glReadPixels, glGetTexImage, etc.",
+            C: "(C) Storing data on the GPU using glDrawPixels, glTexImage2D, etc.",
+            D: "(D) None of all above."
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q109. What two options can be provided to glShadeMode()?",
+        options: {
+            A: "(A) DEPTH and STENCIL",
+            B: "(B) WIDE and NARROW",
+            C: "(C) FOREGROUND and BACKGROUND",
+            D: "(D) UP and DOWN",
+            E: "(E) SMOOTH and FLAT"
+        },
+        correctAnswer: "E"
+    },
+    {
+        question: "Q110. Consider the OpenGL graphics pipeline. Which statements are true?",
+        options: {
+            A: "(A) I only",
+            B: "(B) II only",
+            C: "(C) III only",
+            D: "(D) I and II only",
+            E: "(E) I and III only"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q111. Concerning at, smooth, and Phong shading,",
+        options: {
+            A: "(A) I only",
+            B: "(B) I and II only",
+            C: "(C) I and III only",
+            D: "(D) II and III only",
+            E: "(E) I, II and III"
+        },
+        correctAnswer: "C"
+    },
+    {
+        question: "Q112. Perspective transformations",
+        options: {
+            A: "(A) I only",
+            B: "(B) I and II only",
+            C: "(C) I and III only",
+            D: "(D) II and III only",
+            E: "(E) I, II and III"
+        },
+        correctAnswer: "E"
+    },
+    {
+        question: "Q113. Consider the Midpoint algorithm given here:(1) y = y0(2) d = f(x0+1,y0+1/2) (3) for x = x0 to x1 (4) do (5) draw(x,y) (6) if (d<0) (7) then (8) y = y+1 (9) d = d+(y0-y1)+(x1-x0) (10) else (11) d = d+(y0-y1) (12) end (13) end Which statements are true? I. For a line with slope m > 1, we should change the outer loop in line (3) to be over y. II. Lines (9) and (11) update the decision variable d through an incremental evaluation of the line equation f. III. This algorithm fails if d is ever 0.",
+        options: {
+            A: "(A) I only",
+            B: "(B) I and II only",
+            C: "(C) I and III only",
+            D: "(D) II and III only",
+            E: "(E) I, II and III"
+        },
+        correctAnswer: "B"
+    },
+    {
+        question: "Q114. Which of the following statements about barycentric coordinates (α; β; γ) for triangles are true?I. If s = α+β+γ, then s < 1 for points inside the triangle, s > 1 for points outside the triangle, and s = 1 for points on the triangle.II. At least one of α, β, and γ will be 0 for a point on the triangle.III. α, β, and γ can be used to interpolate vertex attributes across the face of the triangle.",
+        options: {
+            A: "(A) I only",
+            B: "(B) I and II only",
+            C: "(C) I and III only",
+            D: "(D) II and III only",
+            E: "(E) I, II and III"
+        },
+        correctAnswer: "D"
+    },
+    {
+        question: "Q115. Consider the 3D vectors, x, y, illustrated below, and dot product ·and cross product x. Which statements are true?I. x ·y > 0.II. x x y = 0, because x and y lie in the same plane.III. x ·x = y ·y.",
+        options: {
+            A: "(A) I only",
+            B: "(B) II only",
+            C: "(C) I and II only",
+            D: "(D) I and III only",
+            E: "(E) None"
+        },
+        correctAnswer: "A"
+    }
+];
+
+
+
+
+        var currentQuestion = questionBank[Math.floor(Math.random() * questionBank.length)];
+
+        function displayQuestion() {
+            document.getElementById("question-text").innerText = currentQuestion.question;
+            document.getElementById("optionA").innerText = currentQuestion.options.A;
+            document.getElementById("optionB").innerText = currentQuestion.options.B;
+            document.getElementById("optionC").innerText = currentQuestion.options.C;
+            document.getElementById("optionD").innerText = currentQuestion.options.D;
+            document.getElementById("optionE").innerText = currentQuestion.options.E;
+        }
+
+        function checkAnswer() {
+            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+            if (selectedAnswer) {
+                if (selectedAnswer.value === currentQuestion.correctAnswer) {
+                    alert("答對了！");
+                } else {
+                    alert("答錯了，正確答案是：" + currentQuestion.correctAnswer);
+                }
+
+                // 重新載入新的題目
+                currentQuestion = questionBank[Math.floor(Math.random() * questionBank.length)];
+                displayQuestion();
+
+                // 清除選擇的答案
+                document.getElementById("answer-form").reset();
+            } else {
+                alert("請選擇一個答案");
+            }
+        }
+
+        // 初始化顯示第一個題目
+        displayQuestion();
+    </script>
 </body>
 </html>
