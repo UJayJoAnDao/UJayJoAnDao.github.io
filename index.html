@@ -57,7 +57,7 @@
     .entry h3 { margin:0 0 5px; font-size:1.13rem; }
     .entry .org { color:var(--coral); font-size:.93rem; margin-bottom:8px; }
     .entry p { color:var(--muted); margin-bottom:0; }
-    .research { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .research { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
     .research .card { background:var(--panel2); }
     .note { margin-top:20px; color:var(--muted); font-size:.88rem; }
     .contact { display:flex; justify-content:space-between; align-items:end; gap:24px; }
@@ -92,8 +92,8 @@
     </section>
     <section class="section" id="about" aria-labelledby="about-title"><div class="wrap">
       <div class="section-head"><h2 id="about-title">關於我</h2><span class="section-num">01 / PROFILE</span></div>
-      <p class="intro">我的經歷橫跨軟體開發、程式教學與人工智慧研究。大學期間，我在橘子蘋果程式學院擔任承攬程式設計講師，並與主管共同開發線上舉手教室；在叡揚資訊實習時參與金融系統開發。現在，我將這些實作經驗延伸到企業 AI 導入與交通影像研究。</p>
-      <p class="intro" lang="en">I am Yu-Chieh Chang, a master's student in Artificial Intelligence Technology at National Taipei University of Technology. I work on vision-language model adoption and traffic accident detection at intersections. My background includes financial software development, programming education, and a real-time classroom tool built with a colleague.</p>
+      <p class="intro">我目前專注於 AI 在真實場域的應用：在北科大研究路口交通事故偵測，於築景都更推動視覺語言模型（VLM）導入，並擔任 2026 鐵客松實務應用組主要負責人。過去的金融系統開發與程式教學經驗，讓我能從需求、系統實作到使用情境思考 AI 解決方案。</p>
+      <p class="intro" lang="en">I am Yu-Chieh Chang, a master's student in Artificial Intelligence Technology at National Taipei University of Technology. My current focus is traffic accident detection at intersections and vision-language model adoption in industry. I also lead a finalist team in the practical application track of a 2026 hackathon.</p>
       <div class="cards">
         <article class="card"><span class="tag">Current study</span><h3>人工智慧科技碩士</h3><p>國立臺北科技大學；預計 2027 年 7 月畢業。</p></article>
         <article class="card"><span class="tag">Industry</span><h3>企業 AI 導入</h3><p>在築景都更擔任實習工程師，負責 VLM 相關導入工作。</p></article>
@@ -114,13 +114,14 @@
       <div class="section-head"><h2 id="research-title">研究與實作</h2><span class="section-num">03 / SELECTED WORK</span></div>
       <div class="research">
         <article class="card"><span class="tag">Ongoing research</span><h3>路口交通事故偵測</h3><p>聚焦路口交通場景，研究如何辨識車禍事件。</p></article>
+        <article class="card"><span class="tag">Industry AI</span><h3>VLM 導入</h3><p>於築景都更擔任實習工程師，負責視覺語言模型相關 AI 導入工作。</p></article>
         <article class="card"><span class="tag">In progress</span><h3>鐵客松 · 實務應用組</h3><p>作為主要負責人參與 2026 年賽事，目前進入決賽。</p></article>
       </div>
-      <h3 style="margin:38px 0 16px">公開專案</h3>
+      <h3 style="margin:38px 0 16px">早期公開專案</h3>
       <div class="cards">
-        <article class="card"><span class="tag">Teaching tool · Node.js</span><h3>RaiseYourHand</h3><p>與主管共同開發的線上舉手教室，透過 Express 與 Socket.IO 管理教室、學生連線及舉手佇列，回應實際教學需求。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/RaiseYourHand" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
         <article class="card"><span class="tag">Machine learning · Python</span><h3>判決書分類研究</h3><p>以判決書文本為題的分類專案。依儲存庫分工紀錄，負責 CNN、神經網路與遺傳演算法模型訓練。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/judgement_classfier" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
         <article class="card"><span class="tag">Simulation · Python</span><h3>AutoDrive</h3><p>可自行繪製地圖、設定車輛起點並進行碰撞偵測與世代演化訓練的自駕模擬個人專案。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/AutoDrive" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
+        <article class="card"><span class="tag">Teaching tool · Node.js</span><h3>RaiseYourHand</h3><p>與主管共同開發的線上舉手教室，透過 Express 與 Socket.IO 管理教室、學生連線及舉手佇列，回應實際教學需求。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/RaiseYourHand" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
       </div>
       <p class="note">專案描述依本人補充與公開儲存庫內容整理；進行中研究與競賽成果將在可公開時更新。</p>
     </div></section>
