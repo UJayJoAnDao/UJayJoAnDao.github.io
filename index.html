@@ -1,845 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>隨機題目網站</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        #question-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        #answer-form {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        label {
-            display: flex;
-            align-items: center;
-        }
-
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="張侑傑（Yu-Chieh Chang）的個人履歷：人工智慧工程、視覺語言模型與路口交通事故偵測研究。">
+  <meta name="theme-color" content="#0d1724">
+  <title>張侑傑 Yu-Chieh Chang｜AI 工程與交通視覺研究</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0d1724; --panel:#142335; --panel2:#182a3e; --text:#f1f5f7; --muted:#a9bac9; --line:#2b4155; --mint:#9de4c5; --coral:#ffb597; --max:1100px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif; line-height:1.72; }
+    a { color:inherit; }
+    a:focus-visible { outline:2px solid var(--mint); outline-offset:4px; }
+    .wrap { width:min(calc(100% - 40px),var(--max)); margin-inline:auto; }
+    .skip { position:absolute; left:12px; top:-60px; background:var(--mint); color:var(--bg); padding:8px 12px; z-index:10; }
+    .skip:focus { top:12px; }
+    header { border-bottom:1px solid var(--line); }
+    .nav { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { text-decoration:none; font-weight:750; letter-spacing:.03em; }
+    .brand span { color:var(--mint); }
+    nav { display:flex; flex-wrap:wrap; gap:22px; font-size:.9rem; color:var(--muted); }
+    nav a { text-decoration:none; }
+    nav a:hover { color:var(--mint); }
+    .hero { position:relative; overflow:hidden; padding:96px 0 86px; }
+    .hero::before { content:""; position:absolute; width:640px; height:640px; border:1px solid #315066; border-radius:50%; right:-180px; top:-260px; box-shadow:0 0 0 88px rgba(45,83,101,.11),0 0 0 176px rgba(45,83,101,.07); pointer-events:none; }
+    .hero-grid { position:relative; display:grid; grid-template-columns:minmax(0,1.5fr) minmax(260px,.7fr); align-items:center; gap:64px; }
+    .eyebrow { color:var(--mint); font-size:.84rem; font-weight:750; letter-spacing:.2em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { font-size:clamp(2.6rem,6vw,5.1rem); line-height:1.17; letter-spacing:-.055em; margin:16px 0 24px; }
+    h1 em { color:var(--mint); font-style:normal; }
+    .lead { max-width:670px; color:#c8d5df; font-size:clamp(1.05rem,2vw,1.26rem); }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:10px 19px; border-radius:7px; background:var(--mint); color:#10251f; font-weight:750; text-decoration:none; border:1px solid var(--mint); }
+    .button.secondary { background:transparent; color:var(--text); border-color:#557083; }
+    .button:hover { transform:translateY(-2px); }
+    .signal { width:min(100%,300px); aspect-ratio:1; justify-self:end; position:relative; display:grid; place-items:center; }
+    .signal::before,.signal::after { content:""; position:absolute; inset:15%; border:1px dashed #6eab9f; border-radius:50%; }
+    .signal::after { inset:2%; border-color:#376675; }
+    .crossing { width:65%; height:65%; background:linear-gradient(90deg,transparent 46%,#7caeaa 46% 54%,transparent 54%),linear-gradient(transparent 46%,#7caeaa 46% 54%,transparent 54%); transform:rotate(-22deg); opacity:.85; }
+    .crossing::after { content:""; display:block; width:19px; height:19px; background:var(--coral); border:5px solid var(--bg); border-radius:50%; position:relative; left:45%; top:43%; box-shadow:0 0 0 20px rgba(255,181,151,.12); }
+    .section { padding:76px 0; border-top:1px solid var(--line); }
+    .section-head { display:flex; align-items:baseline; justify-content:space-between; gap:20px; margin-bottom:30px; }
+    h2 { font-size:clamp(1.75rem,3vw,2.45rem); letter-spacing:-.035em; margin-bottom:0; }
+    .section-num { color:var(--mint); font-size:.82rem; font-weight:750; letter-spacing:.14em; }
+    .intro { max-width:780px; color:var(--muted); font-size:1.04rem; }
+    .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:27px; }
+    .card .tag { color:var(--mint); font-size:.77rem; letter-spacing:.13em; font-weight:750; text-transform:uppercase; }
+    .card h3 { font-size:1.2rem; line-height:1.4; margin:12px 0; }
+    .card p { color:var(--muted); margin-bottom:0; }
+    .timeline { display:grid; gap:0; }
+    .entry { display:grid; grid-template-columns:190px 1fr; gap:32px; padding:26px 0; border-top:1px solid var(--line); }
+    .entry:last-child { border-bottom:1px solid var(--line); }
+    .entry .time { color:var(--mint); font-size:.9rem; font-weight:700; }
+    .entry h3 { margin:0 0 5px; font-size:1.13rem; }
+    .entry .org { color:var(--coral); font-size:.93rem; margin-bottom:8px; }
+    .entry p { color:var(--muted); margin-bottom:0; }
+    .research { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .research .card { background:var(--panel2); }
+    .note { margin-top:20px; color:var(--muted); font-size:.88rem; }
+    .contact { display:flex; justify-content:space-between; align-items:end; gap:24px; }
+    .contact p { max-width:650px; color:var(--muted); margin-bottom:0; }
+    footer { padding:28px 0; border-top:1px solid var(--line); color:#8fa4b6; font-size:.85rem; }
+    @media(max-width:760px) { .hero { padding:72px 0; } .hero-grid { grid-template-columns:1fr; } .signal { display:none; } .cards,.research { grid-template-columns:1fr; } .entry { grid-template-columns:1fr; gap:4px; } .contact { display:block; } }
+    @media(max-width:520px) { .nav { align-items:flex-start; flex-direction:column; padding:17px 0; gap:10px; } nav { gap:14px; } .wrap { width:min(calc(100% - 32px),var(--max)); } .section { padding:58px 0; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .button:hover { transform:none; } }
+  </style>
 </head>
 <body>
-    <h1>隨機題目網站</h1>
-
-    <div id="question-container">
-        <p id="question-text"></p>
-        <form id="answer-form">
-            <label>
-                <input type="radio" name="answer" value="A"> <span id="optionA"></span>
-            </label>
-            <br>
-            <label>
-                <input type="radio" name="answer" value="B"> <span id="optionB"></span>
-            </label>
-            <br>
-            <label>
-                <input type="radio" name="answer" value="C"> <span id="optionC"></span>
-            </label>
-            <br>
-            <label>
-                <input type="radio" name="answer" value="D"> <span id="optionD"></span>
-            </label>
-            <br>
-            <label>
-                <input type="radio" name="answer" value="E"> <span id="optionE"></span>
-            </label>
-            <br>
-            <button type="button" onclick="checkAnswer()">提交答案</button>
-        </form>
+  <a class="skip" href="#main">跳至主要內容</a>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top">張侑傑<span> / Yu-Chieh Chang</span></a>
+      <nav aria-label="主要導覽">
+        <a href="#about">關於</a><a href="#experience">經歷</a><a href="#research">研究與實作</a><a href="#contact">聯絡</a>
+      </nav>
     </div>
-
-    <script>
-        var questionBank = [
-    {
-        question: "Q54. What are the four types of clearable buffers?",
-        options: {
-            A: "(A) Color, HDR, LTR, VAO",
-            B: "(B) Fragment, Vertex, Vector, Color",
-            C: "(C) Color, Depth, Stencil, Fragment",
-            D: "(D) Color, Depth, Stencil, Accumulation",
-            E: "(E) Vector, Color, Depth, Stencil"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q55. What function is required in every GLSL shader program?",
-        options: {
-            A: "(A) void maine (*) {}",
-            B: "(B) int start () {}",
-            C: "(C) void main () {}",
-            D: "(D) int main () {}",
-            E: "(E) void code () {}"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q56. What is the “pre-fragment” operations?",
-        options: {
-            A: "(A) A way of describing stenciled buffer operation.",
-            B: "(B) Super-parallel operations that occur in CPU before uploading to the GPU core.",
-            C: "(C) Operations that occur logically, such as glLogicOp, which tragically fragment your application’s intended output, running your render.",
-            D: "(D) Also known as a “pre-pixel” operation (application in some cases), “pre-fragment” more accurately describe an operation that occurs through each required “fragment” by pipelines that directly with screen graphics."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q57. What is “core” versus “compatibility” styles of writing OpenGL applications?",
-        options: {
-            A: "(A) “Core” programmers are the ones who created OpenGL, while “compatibility” programmers are the ones hired by other companies to make older applications work on newer machines.",
-            B: "(B) “Core” is the stuff that comes recommended in the specification for the version you are writing for, while “compatibility” uses deprecated function or function from other versions that are not backward compatible.",
-            C: "(C) “compatibility” and “Core” modes are the same modes, but one us gl*function and the other use cgl*functions.",
-            D: "(D) There are nineteen different versions of OpenGL, all of which are now listed as “compatibility” except for three that are listed."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q58. Does OpenGL perform clipping for objects, not within the current viewport?",
-        options: {
-            A: "(A) Yes.",
-            B: "(B) No."
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q59. Fill in the blank to draw this triangle: glBegin (GL_TRIANGLE); …. (blank) …. glEnd();",
-        options: {
-            A: "(A) glDrawTriangle (x,y,z);",
-            B: "(B) glVertex3i (1,2,3); glVertex3i (1,2,3); glTexCoord2i(1,2,3);",
-            C: "(C) put your VBO binding code in there",
-            D: "(D) use 3 sets of common immediate mode function such as glVertex* (required), glColor*, glTexCoord*"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q60. What is glVertexPointer (...) used for?",
-        options: {
-            A: "(A) Get a pointer to a vertex.",
-            B: "(B) Select a vertex of a polygon",
-            C: "(C) Passing an array of vertices to OpenGL",
-            D: "(D) The convention followed in OpenGL to defining and passing a pointer."
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q61. What are the dimensions of a 2D transformation matrix?",
-        options: {
-            A: "(A) 2x2",
-            B: "(B) 3x3",
-            C: "(C) 3x4",
-            D: "(D) 4x4"
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q62. What do the letters “ARB” mean in the context of OpenGL?",
-        options: {
-            A: "(A) Associated Rendering Buffer",
-            B: "(B) Aligned Rendering Buffer",
-            C: "(C) Architecture Review Board",
-            D: "(D) Antiquated Resolution Board"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q63. How do you activate a shader program in OpenGL",
-        options: {
-            A: "(A) glUserProgram(ProgramID);",
-            B: "(B) glUseProgram(ProgramID);",
-            C: "(C) glProgram(ProgramID);",
-            D: "(D) glShader(ProgramID);",
-            E: "(E) glUseShader(ProgramID);"
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q64. When do you use glFlush and glFinish?",
-        options: {
-            A: "(A) glFlush and glFinish should be called once and only once per application. Their utility has increased over time and is required for any OpenGL application no matter how simple (a three-line demo) or complex (a 450,000 AAA video game).",
-            B: "(B) You use glFlush to clear the screen and glFinish to draw the screen to the display.",
-            C: "(C) Usually around certain operations, such as during a glReadPixel after writing, or when Opengl must flush or finish its currently buffered calls. Their utility has decreased over time.",
-            D: "(D) None of all above"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q54. What are the four types of clearable buffers?",
-        options: {
-            A: "(A) Color, HDR, LTR, VAO",
-            B: "(B) Fragment, Vertex, Vector, Color",
-            C: "(C) Color, Depth, Stencil, Fragment",
-            D: "(D) Color, Depth, Stencil, Accumulation",
-            E: "(E) Vector, Color, Depth, Stencil"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q55. What function is required in every GLSL shader program?",
-        options: {
-            A: "(A) void maine (*) {}",
-            B: "(B) int start () {}",
-            C: "(C) void main () {}",
-            D: "(D) int main () {}",
-            E: "(E) void code () {}"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q56. What is the “pre-fragment” operations?",
-        options: {
-            A: "(A) A way of describing stenciled buffer operation.",
-            B: "(B) Super-parallel operations that occur in CPU before uploading to the GPU core.",
-            C: "(C) Operations that occur logically, such as glLogicOp, which tragically fragment your application’s intended output, running your render.",
-            D: "(D) Also known as a “pre-pixel” operation (application in some cases), “pre-fragment” more accurately describe an operation that occurs through each required “fragment” by pipelines that directly with screen graphics."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q57. What is “core” versus “compatibility” styles of writing OpenGL applications?",
-        options: {
-            A: "(A) “Core” programmers are the ones who created OpenGL, while “compatibility” programmers are the ones hired by other companies to make older applications work on newer machines.",
-            B: "(B) “Core” is the stuff that comes recommended in the specification for the version you are writing for, while “compatibility” uses deprecated function or function from other versions that are not backward compatible.",
-            C: "(C) “compatibility” and “Core” modes are the same modes, but one us gl*function and the other use cgl*functions.",
-            D: "(D) There are nineteen different versions of OpenGL, all of which are now listed as “compatibility” except for three that are listed."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q58. Does OpenGL perform clipping for objects, not within the current viewport?",
-        options: {
-            A: "(A) Yes.",
-            B: "(B) No."
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q59. Fill in the blank to draw this triangle: glBegin (GL_TRIANGLE); …. (blank) …. glEnd();",
-        options: {
-            A: "(A) glDrawTriangle (x,y,z);",
-            B: "(B) glVertex3i (1,2,3); glVertex3i (1,2,3); glTexCoord2i(1,2,3);",
-            C: "(C) put your VBO binding code in there",
-            D: "(D) use 3 sets of common immediate mode function such as glVertex* (required), glColor*, glTexCoord*"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q60. What is glVertexPointer (…) used for?",
-        options: {
-            A: "(A) Get a pointer to a vertex.",
-            B: "(B) Select a vertex of a polygon",
-            C: "(C) Passing an array of vertices to OpenGL",
-            D: "(D) The convention followed in OpenGL to defining and passing a pointer."
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q61. What are the dimensions of a 2D transformation matrix?",
-        options: {
-            A: "(A) 2x2",
-            B: "(B) 3x3",
-            C: "(C) 3x4",
-            D: "(D) 4x4"
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q62. What do the letters “ARB” mean in the context of OpenGL?",
-        options: {
-            A: "(A) Associated Rendering Buffer",
-            B: "(B) Aligned Rendering Buffer",
-            C: "(C) Architecture Review Board",
-            D: "(D) Antiquated Resolution Board"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q63. How do you activate a shader program in OpenGL",
-        options: {
-            A: "(A) glUserProgram(ProgramID);",
-            B: "(B) glUseProgram(ProgramID);",
-            C: "(C) glProgram(ProgramID);",
-            D: "(D) glShader(ProgramID);",
-            E: "(E) glUseShader(ProgramID);"
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q64. When do you use glFlush and glFinish?",
-        options: {
-            A: "(A) glFlush and glFinish should be called once and only once per application. Their utility has increased over time and is required for any OpenGL application no matter how simple (a three-line demo) or complex (a 450,000 AAA video game).",
-            B: "(B) You use glFlush to clear the screen and glFinish to draw the screen to the display.",
-            C: "(C) Usually around certain operations, such as during a glReadPixel after writing, or when Opengl must flush or finish its currently buffered calls. Their utility has decreased over time.",
-            D: "(D) None of all above"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q65. Does OpenGL raise an error if a new display list is given the same name of a previously defined display list?",
-        options: {
-            A: "(A) Yes.",
-            B: "(B) No."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q66. What are EXT and ARB",
-        options: {
-            A: "(A) EXT and ARB function are deprecated by default in old versions of OpenGL, and can only be accessed with a special key.",
-            B: "(B) EXT and ARB function appear in the specification, but do not appear in actual use cases.",
-            C: "(C) EXT and ARB function are not yet integrated into the “core” feature set and are considered experimental but the candidate.",
-            D: "(D) None of all above"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q67. What are the primitive types available to a glBegin statement? Note: this question is often flagged by test takers. Read carefully and choose wisely, there is only one correct answer.",
-        options: {
-            A: "(A) GL_QUADE, GL_TRIANGLE, GL_LINES, GL_LINE_STRIP, GL_QUAD_STRIP, GL_LINE_LOOP, GL_TRIANGLE_STRIP, GL_POINTS, GL_POLYGON",
-            B: "(B) TRUE or FALSE",
-            C: "(C) GL_START, GL_END",
-            D: "(D) GL_BEGIN, GL_CLOSE"
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q68. Which is better to use for dynamic drawing?",
-        options: {
-            A: "(A) Coordinate Pointer",
-            B: "(B) Display List",
-            C: "(C) Vertex Array",
-            D: "(D) None of all above"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q69. Once shading is enable, what happens to glColor() calls?",
-        options: {
-            A: "(A) A run-time error occurs if both are used.",
-            B: "(B) They are ignored.",
-            C: "(C) They function as normal.",
-            D: "(D) They enhance the shading effects."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q70. What is the purpose of MIPMAP?",
-        options: {
-            A: "(A) A way to store images that use 33% less space on the GPU.",
-            B: "(B) Filtered non-uniform definitions of texture space can be resolved only using MIPMAP iconography.",
-            C: "(C) Non-isotropic texture used to exhibit quality cache behavior, a basis of non-inverted platform microcopy; a per-fragment compatibility mode in OpenGL.",
-            D: "(D) Multum in parvo; a LOD texture branching from the main texture that assists in scaling, a basis of wavelet compression."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q71. What kind of argument is expected in a function ending with a “v”?",
-        options: {
-            A: "(A) An array typecasted with (GLvoid*) or in the type incidated by the preceding letters.",
-            B: "(B) Any void variable.",
-            C: "(C) A GLunit* pointer.",
-            D: "(D) A virtual method function pointer."
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q72. It is possible to perform a reflection of an object across a specified axis?",
-        options: {
-            A: "(A) No, this functionality is not possible with the current version of OpenGL.",
-            B: "(B) Yes, with glReflect().",
-            C: "(C) Yes, with simple matrix multiplication.",
-            D: "(D) No, you must redraw your object reflected across the desired axis."
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q73. The current version of OpenGL does support materials?",
-        options: {
-            A: "(A) True, these was no need to remove materials support.",
-            B: "(B) False, shaders replaced this functionality.",
-            C: "(C) False, ray tracing replaced this functionality.",
-            D: "(D) None of all above"
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q74. What kind of coordinates are used in order to represent a transformation as a matrix multiplication operation?",
-        options: {
-            A: "(A) Homogenous",
-            B: "(B) Cartesian",
-            C: "(C) Parametric",
-            D: "(D) Heterogeneous"
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q75. What is glTexCoord*() used for?",
-        options: {
-            A: "(A) Defines a coordinate in a texture space in which to draw on top of the texture.",
-            B: "(B) Defines a coordinate in a texture space to be mapped to object space.",
-            C: "(C) Used to define the coordinate system of a texture.",
-            D: "(D) A newly added function where OpenGL supports placing a texting window for mobile applications."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q76. What happens in immediate mode?",
-        options: {
-            A: "(A) OpenGL enters into an interactive mode with the user.",
-            B: "(B) Primitives can be redrawn from display lists. Hence, no information is lost.",
-            C: "(C) Once drawn, primitive information is lost. To redraw, the primitives are drawn by reexecuting the display function.",
-            D: "(D) All commands are given the highest priority execution."
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q77. What purpose does the “Scissor Test” serve?",
-        options: {
-            A: "(A) To end the “Rubber Band Test”",
-            B: "(B) To “cut out” a section of a buffer when performing a copy operation.",
-            C: "(C) To scale a section of a buffer.",
-            D: "(D) To limit the drawing area."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q78. How many texture units are there in OpenGL?",
-        options: {
-            A: "(A) OpenGL provides no texture units per se, but the term is often confused with “texel units”, which refers the number of texture pixel stored in the accumulation buffer.",
-            B: "(B) It is hardware specific and can be queried using glGet.",
-            C: "(C) It is a fractional equivalent to OpenGL’s version number.",
-            D: "(D) It is hardware specific and can be queried using glGetUnits."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q79. Can OpenGL automatically generate texture coordinate?",
-        options: {
-            A: "(A) Yes.",
-            B: "(B) No."
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q80. Which a function NOT used for rending vertex arrays?",
-        options: {
-            A: "(A) glDrawArrays()",
-            B: "(B) glDrawElements()",
-            C: "(C) glDisplayArrays()",
-            D: "(D) glArrayElements()"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q81. What does the Blend Equation do?",
-        options: {
-            A: "(A) It tells OpenGL how to anti-alias polygon.",
-            B: "(B) It tells OpenGL how to mix fragments into a logical order.",
-            C: "(C) It set up a translucent viewport.",
-            D: "(D) It provides the alpha channel with a mixing heuristic, ignoring R, G and B value of a given fragment.",
-            E: "(E) It is return by OpenGL so a parameter can calculate color combinations."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q82. How many cycles theoretically take for a single OpenGL call?",
-        options: {
-            A: "(A) 2",
-            B: "(B) 4",
-            C: "(C) 3",
-            D: "(D) 1",
-            E: "(E) 5"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q83. Will a PNG file directly upload to a GPU, using the fixed-function pipeline, render with the expected content?",
-        options: {
-            A: "(A) Yes.",
-            B: "(B) No."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q84. True or False, OpenGL does NOT have its own data types for int, float, and double?",
-        options: {
-            A: "(A) True.",
-            B: "(B) False."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q85. Does function deprecation stop older applications from working with newer versions of OpenGL?",
-        options: {
-            A: "(A) 3 out of 6 times.",
-            B: "(B) Yes.",
-            C: "(C) No, never.",
-            D: "(D) No, most of the time."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q86. Does OpenGL use column-major order or row-major order when representing a transformation matrix?",
-        options: {
-            A: "(A) row-major",
-            B: "(B) column-major",
-            C: "(C) vector-major"
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q87. What do you have to do to get “compatibility mode” in OpenGL?",
-        options: {
-            A: "(A) glEnable (GL_COMPATIBILITY);",
-            B: "(B) glEnable (GL_ALL);",
-            C: "(C) glEnable (GL_COMPAT);",
-            D: "(D) glDisable (GL_STRICT);",
-            E: "(E) Nothing"
-        },
-        correctAnswer: "E"
-    },
-    {
-        question: "Q88. Which is better to use for static drawing",
-        options: {
-            A: "(A) Display List",
-            B: "(B) Vertex Array",
-            C: "(C) Coordinate Pointer",
-            D: "(D) None of all above"
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q89. Does OpenGL support hierarchical modeling of drawn objects?",
-        options: {
-            A: "(A) Yes.",
-            B: "(B) No."
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q90. What are “accumulation buffers”?",
-        options: {
-            A: "(A) Accumulation buffers accumulate data coming the GPU to the graphics display when switching contexts.",
-            B: "(B) Accumulation buffers offer a unique way to add color to your images.",
-            C: "(C) Accumulation buffers accumulate pixel in an off-screen buffer but cannot be used outside of an OpenGL shared context.",
-            D: "(D) Accumulation buffers allow off-screen rendering to occur without affecting the displayed pixels."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q91. What is the “workshop” name for the type of geometry and texture effects used in commercial gaming as part of OpenGl (and DirectX)?",
-        options: {
-            A: "(A) Polygonal modeling",
-            B: "(B) Geometrical polygonal modeling",
-            C: "(C) Geometric pleasantness",
-            D: "(D) Baked geometry",
-            E: "(E) plasticizing"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q92. What is the use of glOrtho?",
-        options: {
-            A: "(A) It is only used to create isometric the games.",
-            B: "(B) It is the best way to set the view frustum.",
-            C: "(C) glOrtho is used to create a map.",
-            D: "(D) To set the texture and behavior coordinates."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q93. What is “immediate mode”?",
-        options: {
-            A: "(A) A frame loop that repeats once per cycle.",
-            B: "(B) OpenGL’s mnemonic for the way of converting pixel to HDR equivalents.",
-            C: "(C) A deprecated set of functions that permit the user to quickly learn the basic building blocks of OpenGL.",
-            D: "(D) A type of screen mode that allows graphics to immediately be displayed."
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q94. What is the purpose of calls to glLogicOp (GLenum opcode)?",
-        options: {
-            A: "(A) A logical operation applied between RGBA color and RGBA color at the corresponding location.",
-            B: "(B) A logical operation applied between one buffer and another during full-screen copying.",
-            C: "(C) It serves no purpose and has been deprecated since version 1.",
-            D: "(D) A function that returns the error values from OpenGL after performing a “GL logical operation”."
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q95. What is the non-official name for glBlendFunc (GL_ALPHA, GL_ONE)?",
-        options: {
-            A: "(A) Masked",
-            B: "(B) subtractive",
-            C: "(C) Translucency",
-            D: "(D) Multiply",
-            E: "(E) Additive"
-        },
-        correctAnswer: "E"
-    },
-    {
-        question: "Q96. What happens in retained mode?",
-        options: {
-            A: "(A) The current OpenGL state can be stored when specified. This is useful if a command fails and execution needs to rollback to a previous state.",
-            B: "(B) OpenGl retain extra system memory for execution.",
-            C: "(C) Primitives can be redrawn from display lists. Hence, no information is lost.",
-            D: "(D) Once drawn, primitive information is lost. To redraw, the primitives are drawn by reexecuting the display function."
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q97. Is a new coordinate system created with every transformation applied, e.g., translate or rotate?",
-        options: {
-            A: "(A) No.",
-            B: "(B) It depends on the transformations.",
-            C: "(C) Yes.",
-            D: "(D) Sometimes."
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q98. What are the native image formats supported by OpenGL?",
-        options: {
-            A: "(A) OpenGL does not support any native formats.",
-            B: "(B) BGRA, ARGB, RBA, and others.",
-            C: "(C) Next question, please.",
-            D: "(D) PNG, JPG, GIF, PCX, and others."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q99. Let us scale a straight, horizontal line by a factor of 2 through using glScale (2.0f,0.0f, 0.0f). This line consists of only 2 points, left and right point. Which point(s) moves due to the scale transformation?",
-        options: {
-            A: "(A) The right.",
-            B: "(B) Neither",
-            C: "(C) Both.",
-            D: "(D) The left."
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q100. Which coordinate system is NOT used during texture mapping?",
-        options: {
-            A: "(A) Texture",
-            B: "(B) Parametric",
-            C: "(C) Light",
-            D: "(D) World"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q101. When considering lighting, are the effects different when there is one object versus multiple objects?",
-        options: {
-            A: "(A) No, the lighting model in OpenGL is very simple.",
-            B: "(B) Yes, since multiple objects mean light can bounce off of each object and affect the scene.",
-            C: "(C) Yes, since the absorption and reflection of light are shared among objects.",
-            D: "(D) None of all above."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q102. What is “multisampling” and how is it used?",
-        options: {
-            A: "(A) Multisampling is when multiple textures are used to create a single “mega-texture”",
-            B: "(B) Multisampling is a method of doing anti-aliasing (and scaling) while is still in use but is deprecated.",
-            C: "(C) Multisampling is a type of anti-aliasing that allows multiple input sources to write to a single output source.",
-            D: "(D) None of all above."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q103. What is “pixel unpacking”?",
-        options: {
-            A: "(A) Retrieving data from GRAM with functions such as glReadPixel, glGetTexImage2D().",
-            B: "(B) Open source mumbo-jumbo.",
-            C: "(C) Uncompressing image files, or uncompressing texture in GRAM within GPU-space.",
-            D: "(D) Storing data in GARM with functions such as glDrawPixels, glTexImage2D().",
-            E: "(E) Real-time rendering operations that affect data integrity in a cross-platform context."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q104. How many dimensions are supported when performing texture mapping?",
-        options: {
-            A: "(A) 2",
-            B: "(B) 1",
-            C: "(C) 3",
-            D: "(D) 4"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q105. What kind of polygons can OpenGL draw?",
-        options: {
-            A: "(A) Coplanar convex N-gons without holes.",
-            B: "(B) Coplanar convex N-gons with holes.",
-            C: "(C) Concave N-gons",
-            D: "(D) Non-colinear Coplanar concave N-gons",
-            E: "(E) Convex and concave N-gons"
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q106. What is the difference between glBlendFunc and glBlendFuncSeparate()",
-        options: {
-            A: "(A) glBlendFunc does separate the s and d values.",
-            B: "(B) glBlendFunc and glBlendFuncSeparate are essentially the same, but glBlendFunc provides more options and is newer, and thus not deprecated.",
-            C: "(C) Both are deprecated but glBlendFunc was deprecated in 2002 after glBlendFuncSeparate was deprecated the year prior.",
-            D: "(D) glBlendFunc is a shorter call that sets only the s and d factors."
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q107. What is the non-official name for glBlendFunc (GL_ONE_MINUS_DST_COLOR, GL_ZERO)?",
-        options: {
-            A: "(A) Solarize",
-            B: "(B) Additive",
-            C: "(C) Overlay",
-            D: "(D) Multiply",
-            E: "(E) Transparency"
-        },
-        correctAnswer: "A"
-    },
-    {
-        question: "Q108. What is “pixel packing”?",
-        options: {
-            A: "(A) Assembling pixels into network-ready packets.",
-            B: "(B) Retrieving data from the GPU using glReadPixels, glGetTexImage, etc.",
-            C: "(C) Storing data on the GPU using glDrawPixels, glTexImage2D, etc.",
-            D: "(D) None of all above."
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q109. What two options can be provided to glShadeMode()?",
-        options: {
-            A: "(A) DEPTH and STENCIL",
-            B: "(B) WIDE and NARROW",
-            C: "(C) FOREGROUND and BACKGROUND",
-            D: "(D) UP and DOWN",
-            E: "(E) SMOOTH and FLAT"
-        },
-        correctAnswer: "E"
-    },
-    {
-        question: "Q110. Consider the OpenGL graphics pipeline. Which statements are true?",
-        options: {
-            A: "(A) I only",
-            B: "(B) II only",
-            C: "(C) III only",
-            D: "(D) I and II only",
-            E: "(E) I and III only"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q111. Concerning at, smooth, and Phong shading,",
-        options: {
-            A: "(A) I only",
-            B: "(B) I and II only",
-            C: "(C) I and III only",
-            D: "(D) II and III only",
-            E: "(E) I, II and III"
-        },
-        correctAnswer: "C"
-    },
-    {
-        question: "Q112. Perspective transformations",
-        options: {
-            A: "(A) I only",
-            B: "(B) I and II only",
-            C: "(C) I and III only",
-            D: "(D) II and III only",
-            E: "(E) I, II and III"
-        },
-        correctAnswer: "E"
-    },
-    {
-        question: "Q113. Consider the Midpoint algorithm given here:(1) y = y0(2) d = f(x0+1,y0+1/2) (3) for x = x0 to x1 (4) do (5) draw(x,y) (6) if (d<0) (7) then (8) y = y+1 (9) d = d+(y0-y1)+(x1-x0) (10) else (11) d = d+(y0-y1) (12) end (13) end Which statements are true? I. For a line with slope m > 1, we should change the outer loop in line (3) to be over y. II. Lines (9) and (11) update the decision variable d through an incremental evaluation of the line equation f. III. This algorithm fails if d is ever 0.",
-        options: {
-            A: "(A) I only",
-            B: "(B) I and II only",
-            C: "(C) I and III only",
-            D: "(D) II and III only",
-            E: "(E) I, II and III"
-        },
-        correctAnswer: "B"
-    },
-    {
-        question: "Q114. Which of the following statements about barycentric coordinates (α; β; γ) for triangles are true?I. If s = α+β+γ, then s < 1 for points inside the triangle, s > 1 for points outside the triangle, and s = 1 for points on the triangle.II. At least one of α, β, and γ will be 0 for a point on the triangle.III. α, β, and γ can be used to interpolate vertex attributes across the face of the triangle.",
-        options: {
-            A: "(A) I only",
-            B: "(B) I and II only",
-            C: "(C) I and III only",
-            D: "(D) II and III only",
-            E: "(E) I, II and III"
-        },
-        correctAnswer: "D"
-    },
-    {
-        question: "Q115. Consider the 3D vectors, x, y, illustrated below, and dot product ·and cross product x. Which statements are true?I. x ·y > 0.II. x x y = 0, because x and y lie in the same plane.III. x ·x = y ·y.",
-        options: {
-            A: "(A) I only",
-            B: "(B) II only",
-            C: "(C) I and II only",
-            D: "(D) I and III only",
-            E: "(E) None"
-        },
-        correctAnswer: "A"
-    }
-];
-
-
-
-
-        var currentQuestion = questionBank[Math.floor(Math.random() * questionBank.length)];
-
-        function displayQuestion() {
-            document.getElementById("question-text").innerText = currentQuestion.question;
-            document.getElementById("optionA").innerText = currentQuestion.options.A;
-            document.getElementById("optionB").innerText = currentQuestion.options.B;
-            document.getElementById("optionC").innerText = currentQuestion.options.C;
-            document.getElementById("optionD").innerText = currentQuestion.options.D;
-            document.getElementById("optionE").innerText = currentQuestion.options.E;
-        }
-
-        function checkAnswer() {
-            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
-
-            if (selectedAnswer) {
-                if (selectedAnswer.value === currentQuestion.correctAnswer) {
-                    alert("答對了！");
-                } else {
-                    alert("答錯了，正確答案是：" + currentQuestion.correctAnswer);
-                }
-
-                // 重新載入新的題目
-                currentQuestion = questionBank[Math.floor(Math.random() * questionBank.length)];
-                displayQuestion();
-
-                // 清除選擇的答案
-                document.getElementById("answer-form").reset();
-            } else {
-                alert("請選擇一個答案");
-            }
-        }
-
-        // 初始化顯示第一個題目
-        displayQuestion();
-    </script>
+  </header>
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">YU-CHIEH CHANG · AI ENGINEERING · TRANSPORTATION</div>
+          <h1 id="hero-title">把 AI 帶進現場，<br><em>讓影像變成洞察。</em></h1>
+          <p class="lead">目前就讀國立臺北科技大學人工智慧科技碩士學位學程，研究路口交通事故偵測，同時於築景都更擔任實習工程師，投入視覺語言模型（VLM）的 AI 導入。</p>
+          <div class="actions"><a class="button" href="#research">探索研究與實作</a><a class="button secondary" href="https://github.com/UJayJoAnDao" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+        </div>
+        <div class="signal" aria-hidden="true"><div class="crossing"></div></div>
+      </div>
+    </section>
+    <section class="section" id="about" aria-labelledby="about-title"><div class="wrap">
+      <div class="section-head"><h2 id="about-title">關於我</h2><span class="section-num">01 / PROFILE</span></div>
+      <p class="intro">我的經歷橫跨軟體實務、教學與人工智慧研究。從大學期間在叡揚資訊實習、擔任承攬教師，到現在的企業 AI 導入與交通影像研究，我關注的是如何把技術放進真實情境，釐清需求、驗證方法並做出可用的成果。</p>
+      <p class="intro" lang="en">I am Yu-Chieh Chang, a master's student in Artificial Intelligence Technology at National Taipei University of Technology. My work spans vision-language model adoption in industry and research on traffic accident detection at intersections. I also bring experience in software projects and teaching.</p>
+      <div class="cards">
+        <article class="card"><span class="tag">Current study</span><h3>人工智慧科技碩士</h3><p>國立臺北科技大學；預計 2027 年 7 月畢業。</p></article>
+        <article class="card"><span class="tag">Industry</span><h3>企業 AI 導入</h3><p>在築景都更擔任實習工程師，負責 VLM 相關導入工作。</p></article>
+        <article class="card"><span class="tag">Research</span><h3>路口交通事故偵測</h3><p>以路口交通場景的車禍偵測為研究主題。</p></article>
+      </div>
+    </div></section>
+    <section class="section" id="experience" aria-labelledby="experience-title"><div class="wrap">
+      <div class="section-head"><h2 id="experience-title">經歷</h2><span class="section-num">02 / JOURNEY</span></div>
+      <div class="timeline">
+        <article class="entry"><div class="time">目前</div><div><h3>實習工程師 · AI 導入</h3><div class="org">築景都更</div><p>負責視覺語言模型（VLM）相關 AI 導入工作。</p></div></article>
+        <article class="entry"><div class="time">目前 · 預計 2027 / 07 畢業</div><div><h3>人工智慧科技碩士學位學程</h3><div class="org">國立臺北科技大學</div><p>研究方向為路口交通事故偵測。</p></div></article>
+        <article class="entry"><div class="time">2026 · 決賽進行中</div><div><h3>鐵客松實務應用組 · 主要負責人</h3><div class="org">競賽經歷</div><p>擔任實務應用組主要負責人，團隊已進入決賽。</p></div></article>
+        <article class="entry"><div class="time">大學期間</div><div><h3>實習</h3><div class="org">叡揚資訊</div><p>參與企業實習，累積軟體實務經驗。</p></div></article>
+        <article class="entry"><div class="time">大學期間</div><div><h3>承攬教師</h3><div class="org">教學／承攬工作</div><p>擔任承攬教師，參與教學工作。</p></div></article>
+      </div>
+    </div></section>
+    <section class="section" id="research" aria-labelledby="research-title"><div class="wrap">
+      <div class="section-head"><h2 id="research-title">研究與實作</h2><span class="section-num">03 / SELECTED WORK</span></div>
+      <div class="research">
+        <article class="card"><span class="tag">Ongoing research</span><h3>路口交通事故偵測</h3><p>聚焦路口交通場景，研究如何辨識車禍事件。</p></article>
+        <article class="card"><span class="tag">In progress</span><h3>鐵客松 · 實務應用組</h3><p>作為主要負責人參與 2026 年賽事，目前進入決賽。</p></article>
+      </div>
+      <h3 style="margin:38px 0 16px">公開專案</h3>
+      <div class="cards">
+        <article class="card"><span class="tag">Machine learning · Python</span><h3>判決書分類研究</h3><p>以判決書文本為題的分類專案。依儲存庫分工紀錄，負責 CNN、神經網路與遺傳演算法模型訓練。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/judgement_classfier" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
+        <article class="card"><span class="tag">Simulation · Python</span><h3>AutoDrive</h3><p>可自行繪製地圖、設定車輛起點並進行碰撞偵測與世代演化訓練的自駕模擬個人專案。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/AutoDrive" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
+        <article class="card"><span class="tag">Backend · Go</span><h3>AdServe</h3><p>廣告投放 API 練習專案，實作新增廣告及依使用者條件查詢有效廣告的介面。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/AdServe" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
+      </div>
+      <p class="note">專案描述依公開儲存庫文件整理；研究、實習與競賽成果將在確認可公開內容後補充。</p>
+    </div></section>
+    <section class="section" id="contact" aria-labelledby="contact-title"><div class="wrap contact">
+      <div><div class="eyebrow">LET'S CONNECT</div><h2 id="contact-title">一起討論 AI 的真實應用。</h2><p>歡迎交流視覺語言模型、交通影像研究與跨領域 AI 導入。你可以先透過 <a href="https://github.com/UJayJoAnDao" target="_blank" rel="noopener noreferrer">GitHub 個人頁面</a>了解我的公開專案。</p></div>
+    </div></section>
+  </main>
+  <footer><div class="wrap">© 2026 Yu-Chieh Chang · 個人履歷網站草稿 · 資訊更新至 2026 年 9 月</div></footer>
 </body>
 </html>
+
