@@ -35,11 +35,8 @@
     .button { display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:10px 19px; border-radius:7px; background:var(--mint); color:#10251f; font-weight:750; text-decoration:none; border:1px solid var(--mint); }
     .button.secondary { background:transparent; color:var(--text); border-color:#557083; }
     .button:hover { transform:translateY(-2px); }
-    .signal { width:min(100%,300px); aspect-ratio:1; justify-self:end; position:relative; display:grid; place-items:center; }
-    .signal::before,.signal::after { content:""; position:absolute; inset:15%; border:1px dashed #6eab9f; border-radius:50%; }
-    .signal::after { inset:2%; border-color:#376675; }
-    .crossing { width:65%; height:65%; background:linear-gradient(90deg,transparent 46%,#7caeaa 46% 54%,transparent 54%),linear-gradient(transparent 46%,#7caeaa 46% 54%,transparent 54%); transform:rotate(-22deg); opacity:.85; }
-    .crossing::after { content:""; display:block; width:19px; height:19px; background:var(--coral); border:5px solid var(--bg); border-radius:50%; position:relative; left:45%; top:43%; box-shadow:0 0 0 20px rgba(255,181,151,.12); }
+    .portrait { width:min(100%,310px); aspect-ratio:4/5; justify-self:end; margin:0; padding:7px; border:1px solid #4b796f; border-radius:18px; background:linear-gradient(150deg,#274c4e,#152a38); box-shadow:0 26px 60px rgba(0,0,0,.24); transform:rotate(2deg); }
+    .portrait img { display:block; width:100%; height:100%; object-fit:cover; border-radius:11px; }
     .section { padding:76px 0; border-top:1px solid var(--line); }
     .section-head { display:flex; align-items:baseline; justify-content:space-between; gap:20px; margin-bottom:30px; }
     h2 { font-size:clamp(1.75rem,3vw,2.45rem); letter-spacing:-.035em; margin-bottom:0; }
@@ -59,11 +56,14 @@
     .entry p { color:var(--muted); margin-bottom:0; }
     .research { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
     .research .card { background:var(--panel2); }
+    .research-figure { margin:28px 0 0; overflow:hidden; background:var(--panel); border:1px solid var(--line); border-radius:12px; }
+    .research-figure img { display:block; width:100%; height:auto; }
+    .research-figure figcaption { padding:16px 20px; color:var(--muted); font-size:.9rem; }
     .note { margin-top:20px; color:var(--muted); font-size:.88rem; }
     .contact { display:flex; justify-content:space-between; align-items:end; gap:24px; }
     .contact p { max-width:650px; color:var(--muted); margin-bottom:0; }
     footer { padding:28px 0; border-top:1px solid var(--line); color:#8fa4b6; font-size:.85rem; }
-    @media(max-width:760px) { .hero { padding:72px 0; } .hero-grid { grid-template-columns:1fr; } .signal { display:none; } .cards,.research { grid-template-columns:1fr; } .entry { grid-template-columns:1fr; gap:4px; } .contact { display:block; } }
+    @media(max-width:760px) { .hero { padding:72px 0; } .hero-grid { grid-template-columns:1fr; gap:38px; } .portrait { justify-self:center; width:min(72vw,280px); } .cards,.research { grid-template-columns:1fr; } .entry { grid-template-columns:1fr; gap:4px; } .contact { display:block; } }
     @media(max-width:520px) { .nav { align-items:flex-start; flex-direction:column; padding:17px 0; gap:10px; } nav { gap:14px; } .wrap { width:min(calc(100% - 32px),var(--max)); } .section { padding:58px 0; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .button:hover { transform:none; } }
   </style>
@@ -87,7 +87,7 @@
           <p class="lead">目前就讀國立臺北科技大學人工智慧科技碩士學位學程，研究結合物件偵測與時序資訊的路口事故偵測；同時於築景都更擔任實習工程師，推動謄本資料的 AI 自動擷取與本地部署。</p>
           <div class="actions"><a class="button" href="#research">探索研究與實作</a><a class="button secondary" href="https://github.com/UJayJoAnDao" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
         </div>
-        <div class="signal" aria-hidden="true"><div class="crossing"></div></div>
+        <figure class="portrait"><img src="portrait.jpg" alt="張侑傑的個人照片" width="754" height="920" fetchpriority="high"></figure>
       </div>
     </section>
     <section class="section" id="about" aria-labelledby="about-title"><div class="wrap">
@@ -117,6 +117,7 @@
         <article class="card"><span class="tag">Industry AI</span><h3>謄本電子化與本地 LLM</h3><p>以 Ollama、Qwen3.5 9B 和 RTX 5060 Ti 16GB 執行資料擷取與儲存流程。以 120 頁謄本為例，掃描至匯出約 60 分鐘；原人工流程約需兩週。</p></article>
         <article class="card"><span class="tag">In progress</span><h3>鐵道全面電子化平台</h3><p>2026 鐵客松實務應用組決賽作品；負責架構設計與開發。競賽結果預計 2026 年 12 月底公布。</p></article>
       </div>
+      <figure class="research-figure"><img src="accident-detection-example.jpg" alt="夜間路口影像中，車輛被物件偵測框標示的研究畫面" width="1800" height="825" loading="lazy"><figcaption>研究中的路口影像物件偵測示例。此畫面展示單一影格的偵測標記；事故事件判定與整體效能仍在研究中。</figcaption></figure>
       <h3 style="margin:38px 0 16px">早期公開專案</h3>
       <div class="cards">
         <article class="card"><span class="tag">Machine learning · Python</span><h3>判決書分類研究</h3><p>以判決書文本為題的分類專案。依儲存庫分工紀錄，負責 CNN、神經網路與遺傳演算法模型訓練。</p><p style="margin-top:18px"><a href="https://github.com/UJayJoAnDao/judgement_classfier" target="_blank" rel="noopener noreferrer">查看原始碼 ↗</a></p></article>
