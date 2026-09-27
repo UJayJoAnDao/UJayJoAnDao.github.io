@@ -53,6 +53,7 @@ html[lang="en"] .english-name,html[lang="en"] .section-title>span{display:none}
 html[lang="en"] h1{font-size:clamp(2rem,4vw,3.2rem);letter-spacing:0}
 html[lang="en"] .entry-head{flex-wrap:wrap;gap:4px 16px}
 @media(max-width:600px){.topline nav{order:3;width:100%;margin-left:0}.language-control{margin-left:auto}html[lang="en"] h1{font-size:2rem}}
+.education-entry{margin-top:20px}
 </style>
 </head>
 <body>
@@ -70,7 +71,7 @@ html[lang="en"] .entry-head{flex-wrap:wrap;gap:4px 16px}
 <div class="focus" aria-label="主要專長"><strong>目前專注</strong><span>電腦視覺與時序事件偵測</span><span>LLM / VLM 應用</span><span>本地模型部署</span></div>
 <div class="layout">
 <aside aria-label="學歷與技能">
-<section class="side-section"><h2>學歷</h2><p><strong>國立臺北科技大學</strong><br>人工智慧科技碩士學位學程</p><p class="small">在學中 · 預計 2027 / 07 畢業</p></section>
+<section class="side-section"><h2>學歷</h2><p><strong>國立臺北科技大學</strong><br>人工智慧科技碩士學位學程</p><p class="small">在學中 · 預計 2027 / 07 畢業</p><div class="education-entry"><p><strong>國立高雄科技大學</strong><br>資訊工程系 · 建工校區</p><p class="small">2021 / 09 – 2025 / 06</p></div></section>
 <section class="side-section"><h2>技術與實務</h2><ul class="skills"><li><strong>AI 與資料</strong>Python、物件偵測、時序資訊、SQL</li><li><strong>模型部署</strong>Ollama、Qwen、本地 GPU 部署</li><li><strong>應用開發</strong>.NET Core、JavaScript、Kendo UI</li><li><strong>程式教學</strong>Scratch、Python、網站設計、APCS</li></ul></section>
 <section class="side-section"><h2 lang="en">About me</h2><p class="summary" lang="en">I am an AI master's student at National Taipei University of Technology. My work focuses on traffic accident detection and locally deployed AI for document extraction. I bring experience in financial software development and programming education.</p></section>
 </aside>
@@ -103,6 +104,8 @@ html[lang="en"] .entry-head{flex-wrap:wrap;gap:4px 16px}
   'use strict';
   // Chinese source text is the fallback; keep English translations in this table.
   const english = {
+  "國立高雄科技大學": "National Kaohsiung University of Science and Technology",
+  "資訊工程系 · 建工校區": "Department of Computer Science and Information Engineering · Jiangong Campus",
   "跳至主要內容": "Skip to main content",
   "頁面導覽": "Page navigation",
   "經歷": "Experience",
