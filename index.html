@@ -44,12 +44,21 @@ footer{margin-top:20px;border-top:1px solid var(--line);padding:22px 0 32px;disp
 @media(max-width:480px){.profile{gap:20px;grid-template-columns:1fr 90px;align-items:start}.portrait{margin-top:7px}.portrait img{width:90px;height:116px;border-radius:4px 22px 4px 4px}.portrait:before{inset:8px -5px -6px 6px}.profile-info{display:contents}.name-block{grid-column:1;grid-row:1}.portrait{grid-column:2;grid-row:1}.profile-copy{grid-column:1/-1}.role{margin-top:12px;font-size:.94rem}.bio{margin-top:0}.english-name{font-size:1rem}h1{font-size:2.45rem}.kicker{font-size:.76rem}.topline{padding-top:18px}.wordmark{font-size:.7rem}nav{gap:12px;font-size:.76rem}.links{font-size:.82rem}.focus{font-size:.78rem;padding:12px}.focus strong{width:100%}.layout{margin-top:30px}aside{grid-template-columns:1fr}.side-section:last-child{grid-column:auto}footer{flex-direction:column;gap:4px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media print{body{background:#fff}.page{width:100%}.topline,.skip{display:none}.profile{padding-top:0}.layout{gap:30px;grid-template-columns:190px 1fr}.entry,.research-image{break-inside:avoid}a{color:inherit}.portrait:before{display:none}}
+
+.language-control{display:flex;align-items:center;gap:8px;flex-shrink:0;color:var(--green);font-size:.8rem}
+.language-control select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:7px;min-height:40px;cursor:pointer}
+.language-control select:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.topline{flex-wrap:wrap}.topline nav{margin-left:auto}
+html[lang="en"] .english-name,html[lang="en"] .section-title>span{display:none}
+html[lang="en"] h1{font-size:clamp(2rem,4vw,3.2rem);letter-spacing:0}
+html[lang="en"] .entry-head{flex-wrap:wrap;gap:4px 16px}
+@media(max-width:600px){.topline nav{order:3;width:100%;margin-left:0}.language-control{margin-left:auto}html[lang="en"] h1{font-size:2rem}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
 <div class="page">
-<header class="topline"><a class="wordmark" href="#main"><span class="dot"></span>YU-CHIEH CHANG</a><nav aria-label="頁面導覽"><a href="#experience">經歷</a><a href="#research">研究</a><a href="#projects">作品</a></nav></header>
+<header class="topline"><a class="wordmark" href="#main"><span class="dot"></span>YU-CHIEH CHANG</a><nav aria-label="頁面導覽"><a href="#experience">經歷</a><a href="#research">研究</a><a href="#projects">作品</a></nav><label class="language-control"><span aria-hidden="true">文 / A</span><select id="language" aria-label="網站語言 / Website language"><option value="auto">自動 / Auto</option><option value="zh-Hant">繁體中文</option><option value="en">English</option></select></label></header>
 <main id="main">
 <section class="profile" aria-labelledby="name">
 <div class="profile-info">
@@ -88,6 +97,140 @@ footer{margin-top:20px;border-top:1px solid var(--line);padding:22px 0 32px;disp
 </main>
 <footer><span>© 2026 張侑傑 · Yu-Chieh Chang</span><span>更新於 2026 年 9 月</span></footer>
 </div>
+
+<script>
+(() => {
+  'use strict';
+  // Chinese source text is the fallback; keep English translations in this table.
+  const english = {
+  "跳至主要內容": "Skip to main content",
+  "頁面導覽": "Page navigation",
+  "經歷": "Experience",
+  "研究": "Research",
+  "作品": "Projects",
+  "AI 研究 × 軟體實作": "AI research × Software development",
+  "張侑傑": "Yu-Chieh Chang",
+  "北科大人工智慧碩士生 · AI 實習工程師": "AI master's student at Taipei Tech · AI engineering intern",
+  "專注於交通事件偵測、文件 AI 與本地模型部署。目前在築景都更推動謄本電子化，同時研究如何結合物件偵測與時序資訊辨識路口事故。預計 2027 年 7 月畢業。": "I focus on traffic event detection, document AI, and local model deployment. At Zhujing Urban Renewal, I work on digitizing property records while researching intersection accident detection using object detection and temporal information. Expected graduation: July 2027.",
+  "張侑傑的個人照片": "Portrait of Yu-Chieh Chang",
+  "主要專長": "Areas of focus",
+  "目前專注": "Current focus",
+  "電腦視覺與時序事件偵測": "Computer vision & temporal event detection",
+  "LLM / VLM 應用": "LLM / VLM applications",
+  "本地模型部署": "Local model deployment",
+  "學歷與技能": "Education and skills",
+  "學歷": "Education",
+  "國立臺北科技大學": "National Taipei University of Technology",
+  "人工智慧科技碩士學位學程": "Master's Program in Artificial Intelligence Technology",
+  "在學中 · 預計 2027 / 07 畢業": "In progress · Expected July 2027",
+  "技術與實務": "Technical skills",
+  "AI 與資料": "AI & data",
+  "Python、物件偵測、時序資訊、SQL": "Python, object detection, temporal information, SQL",
+  "模型部署": "Model deployment",
+  "Ollama、Qwen、本地 GPU 部署": "Ollama, Qwen, local GPU deployment",
+  "應用開發": "Application development",
+  ".NET Core、JavaScript、Kendo UI": ".NET Core, JavaScript, Kendo UI",
+  "程式教學": "Programming education",
+  "Scratch、Python、網站設計、APCS": "Scratch, Python, web design, APCS",
+  "工作經歷": "Experience",
+  "築景都更": "Zhujing Urban Renewal",
+  "目前": "Present",
+  "實習工程師 · AI 導入": "Engineering intern · AI integration",
+  "運用 LLM 自動擷取謄本內容，將資料結構化、儲存並整合資料庫應用。": "Use LLMs to extract property record content, structure and store data, and integrate it into database applications.",
+  "以 Ollama 與 Qwen3.5 9B，在 RTX 5060 Ti 16GB 上建立輕量的本地部署流程。": "Built a lightweight local deployment workflow with Ollama and Qwen3.5 9B on an RTX 5060 Ti with 16 GB of VRAM.",
+  "120 頁謄本的專案案例中，掃描至匯出約 60 分鐘，原人工整理流程約需兩週。": "In a project case involving 120 pages of property records, scanning through export took about 60 minutes; the previous manual workflow took about two weeks.",
+  "文件擷取 → 結構化資料 → 資料庫應用": "Document extraction → Structured data → Database applications",
+  "叡揚資訊": "Galaxy Software Services",
+  "助理工程師 · 實習": "Assistant engineer · Internship",
+  "參與金融系統與華泰銀行相關專案，使用 .NET Core、SQL 與 Kendo UI。": "Contributed to financial systems and projects related to Hwatai Bank using .NET Core, SQL, and Kendo UI.",
+  "負責 SQL 撰寫、資料處理測試與畫面調整，累積前後端及資料層協作經驗。": "Wrote SQL, tested data processing, and refined user interfaces, gaining experience across frontend, backend, and data layers.",
+  "橘子蘋果程式學院": "Orange Apple Coding Academy",
+  "承攬程式設計講師 · 高雄": "Contract programming instructor · Kaohsiung",
+  "教導上百位國小三年級至高中學生，教授 Scratch、JavaScript、Python、網站設計與 APCS。": "Taught hundreds of students from grade 3 through high school, covering Scratch, JavaScript, Python, web design, and APCS preparation.",
+  "與主管共同開發 RaiseYourHand 線上舉手教室，支援課堂互動。": "Co-developed RaiseYourHand with my supervisor to support classroom interaction.",
+  "研究與競賽": "Research & competitions",
+  "路口交通事故偵測": "Intersection traffic accident detection",
+  "研究中": "In progress",
+  "碩士研究 · 電腦視覺 × 時序資訊": "Master's research · Computer vision × Temporal information",
+  "使用公開 ACCIDENT 資料集，研究結合物件偵測與時序資訊的事件偵測方法，聚焦路口交通事故的辨識。": "Using the public ACCIDENT dataset to investigate event detection methods that combine object detection with temporal information, focusing on accidents at intersections.",
+  "開啟完整研究示例圖片": "Open the full research example image",
+  "夜間路口影像中的車輛偵測框與模型標記": "Vehicle detection boxes and model annotations at a nighttime intersection",
+  "階段性研究畫面：單一影格的物件偵測示例。事故事件判定與整體效能仍在研究中。": "Work in progress: an object detection example from a single frame. Accident event recognition and overall performance are still under investigation.",
+  "鐵道全面電子化平台": "Railway Digitalization Platform",
+  "2026 鐵客松": "2026 Rail Hackathon",
+  "實務應用組 · 決賽入圍 · 主要負責人": "Practical Application Track · Finalist · Project lead",
+  "與北科大 AI 碩士班李建樂老師實驗室（LeeLab / CureLab）團隊參賽，個人負責架構設計與開發。競賽結果預計於 2026 年 12 月底公布。": "Competing with the LeeLab / CureLab team from Taipei Tech's AI master's program, supervised by Professor 李建樂. Responsible for architecture design and development. Results are expected in late December 2026.",
+  "早期公開作品": "Earlier public projects",
+  "判決書分類研究": "Legal judgment classification",
+  "原始碼 ↗": "Source ↗",
+  "以判決書文本為題的分類專案，負責 CNN、神經網路與遺傳演算法模型訓練。": "A legal text classification project. Responsible for training CNN, neural network, and genetic algorithm models.",
+  "以 Python 建立自駕模擬個人專案，可繪製地圖、設定起點，進行碰撞偵測與世代演化訓練。": "A personal Python self-driving simulation with map drawing, start-position configuration, collision detection, and evolutionary training.",
+  "與主管共同開發的線上舉手教室，使用 Express 與 Socket.IO 管理教室、學生連線及舉手佇列。": "An online classroom tool co-developed with my supervisor, using Express and Socket.IO to manage classrooms, student connections, and hand-raising queues.",
+  "© 2026 張侑傑 · Yu-Chieh Chang": "© 2026 Yu-Chieh Chang",
+  "更新於 2026 年 9 月": "Updated September 2026"
+};
+  const storageKey = 'resume-language';
+  const selector = document.getElementById('language');
+  const textNodes = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    if (node.parentElement.closest('script, style, select')) continue;
+    const key = node.textContent.trim();
+    if (Object.prototype.hasOwnProperty.call(english, key)) {
+      textNodes.push({node, original: node.textContent, key});
+    }
+  }
+  const attributes = [];
+  document.querySelectorAll('[alt], [aria-label]').forEach(element => {
+    ['alt', 'aria-label'].forEach(name => {
+      const original = element.getAttribute(name);
+      if (Object.prototype.hasOwnProperty.call(english, original)) {
+        attributes.push({element, name, original});
+      }
+    });
+  });
+  let preference = 'auto';
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved === 'en' || saved === 'zh-Hant') preference = saved;
+  } catch (_) { /* Language switching still works when storage is unavailable. */ }
+  function browserLanguage() {
+    for (const language of navigator.languages || [navigator.language]) {
+      if (/^zh(?:-|$)/i.test(language)) return 'zh-Hant';
+      if (/^en(?:-|$)/i.test(language)) return 'en';
+    }
+    return 'en';
+  }
+  function render() {
+    const language = preference === 'auto' ? browserLanguage() : preference;
+    document.documentElement.lang = language;
+    textNodes.forEach(({node, original, key}) => {
+      node.textContent = language === 'en' ? original.replace(key, english[key]) : original;
+    });
+    attributes.forEach(({element, name, original}) => {
+      element.setAttribute(name, language === 'en' ? english[original] : original);
+    });
+    document.title = language === 'en' ? 'Yu-Chieh Chang | Resume' : '張侑傑 Yu-Chieh Chang｜個人履歷';
+    document.querySelector('meta[name="description"]').content = language === 'en'
+      ? "Yu-Chieh Chang: AI master's student at Taipei Tech, focusing on traffic event detection, document AI, and local model deployment."
+      : '張侑傑 Yu-Chieh Chang：北科大人工智慧碩士生，專注交通事件偵測、文件 AI 與本地模型部署。';
+    selector.value = preference;
+  }
+  selector.addEventListener('change', () => {
+    preference = selector.value;
+    try {
+      if (preference === 'auto') localStorage.removeItem(storageKey);
+      else localStorage.setItem(storageKey, preference);
+    } catch (_) { /* Keep the selected language for this page session. */ }
+    render();
+  });
+  window.addEventListener('languagechange', () => {
+    if (preference === 'auto') render();
+  });
+  render();
+})();
+</script>
 </body>
 </html>
 
